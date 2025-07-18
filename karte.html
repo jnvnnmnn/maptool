@@ -3,16 +3,16 @@
 <html lang="de">
 <head>
   <meta charset="UTF-8">
-  <title>CartoDB Karte (Light)</title>
+  <title>Leaflet Karte 100% Containerhöhe</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
 
   <style>
     html, body {
-      height: 100%;
       margin: 0;
       padding: 0;
+      height: 100%;
     }
 
     #map {
@@ -74,17 +74,20 @@
       keyboard: true
     });
 
-    // Carto Light Tiles (visuell modern)
+    // Carto Light Tiles
     L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; OpenStreetMap contributors & CartoDB',
       subdomains: 'abcd',
       maxZoom: 19
     }).addTo(map);
 
-    // Resize-Fix im iFrame
-    setTimeout(() => {
+    // Wiederholtes Resize, um Karte korrekt im iFrame darzustellen
+    let attempts = 0;
+    const interval = setInterval(() => {
       map.invalidateSize();
-    }, 100);
+      attempts++;
+      if (attempts > 10) clearInterval(interval);
+    }, 200);
 
     const animatedIcon = L.divIcon({
       className: '',
