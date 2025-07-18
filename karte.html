@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="de">
 <head>
@@ -78,7 +79,6 @@
   <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
   <script>
-    // Initialisiere Leaflet-Karte
     const map = L.map('map', {
       center: [52.3896, 9.6376],
       zoom: 17,
@@ -91,12 +91,15 @@
       keyboard: false
     });
 
-    // Kachel-Layer
+    // Karte nach kurzer Zeit korrekt rendern, besonders wichtig für iframe-Einbettung
+    setTimeout(() => {
+      map.invalidateSize();
+    }, 500);
+
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
     }).addTo(map);
 
-    // Animierter Marker
     const animatedIcon = L.divIcon({
       className: '',
       html: '<div class="pulse-marker"></div>',
@@ -106,7 +109,6 @@
 
     L.marker([52.3896, 9.6376], { icon: animatedIcon }).addTo(map);
 
-    // Fade-In-Effekt beim Scrollen
     const observer = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
