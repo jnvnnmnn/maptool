@@ -91,10 +91,17 @@
       keyboard: false
     });
 
-    // Karte nach kurzer Zeit korrekt rendern, besonders wichtig für iframe-Einbettung
-    setTimeout(() => {
-      map.invalidateSize();
-    }, 500);
+    // Wiederholtes Resize für iFrame-Fix
+    function forceResizeMap(mapInstance, tries = 10) {
+      let attempt = 0;
+      const interval = setInterval(() => {
+        mapInstance.invalidateSize();
+        attempt++;
+        if (attempt >= tries) clearInterval(interval);
+      }, 300);
+    }
+
+    forceResizeMap(map);
 
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
       attribution: '&copy; OpenStreetMap contributors'
