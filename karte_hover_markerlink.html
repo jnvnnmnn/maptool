@@ -117,16 +117,17 @@
     
 const marker = L.marker([52.3896, 9.6376], { icon: animatedIcon }).addTo(map);
 
-// Marker Hover: Popup anzeigen mit Link zu Google Maps
+// Marker: Klick + Hover zeigt Popup mit Link zu Google Maps
 marker.bindPopup(
   '<a href="https://www.google.com/maps/dir/?api=1&destination=Alfred-Nobel-Straße+4,+30926+Seelze" target="_blank" style="text-decoration:none; color:#e74c3c; font-weight:bold;">📍 Route planen mit Google Maps</a>'
 );
 
-marker.on('mouseover', function () {
+marker.on('click', function () {
   marker.openPopup();
 });
-marker.on('mouseout', function () {
-  marker.closePopup();
+
+marker.on('mouseover', function () {
+  marker.openPopup();
 });
 
 
